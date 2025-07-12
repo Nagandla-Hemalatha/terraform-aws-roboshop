@@ -167,6 +167,7 @@ resource "aws_autoscaling_group" "main" {
   timeouts{
     delete = "15m"
   }
+  depends_on = [aws_iam_service_linked_role.autoscaling]
 }
 
 resource "aws_autoscaling_policy" "main" {
