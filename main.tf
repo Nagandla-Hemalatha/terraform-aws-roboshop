@@ -126,7 +126,7 @@ resource "aws_launch_template" "main" {
 
 }
 
-resource "aws_autoscaling_group" "main" {
+resource "aws_autoscaling_group" "main_as" {
   name                 = "${var.project}-${var.environment}-${var.component}"
   desired_capacity   = 1
   max_size           = 10
@@ -167,12 +167,11 @@ resource "aws_autoscaling_group" "main" {
   timeouts{
     delete = "15m"
   }
-  depends_on = [aws_iam_service_linked_role.autoscaling]
 }
 
 resource "aws_autoscaling_policy" "main" {
   name                   = "${var.project}-${var.environment}-${var.component}"
-  autoscaling_group_name = aws_autoscaling_group.main.name
+  autoscaling_group_name = aws_autoscaling_group.main_as.name
   policy_type            = "TargetTrackingScaling"
   target_tracking_configuration {
     predefined_metric_specification {
